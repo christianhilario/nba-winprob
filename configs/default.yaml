@@ -1,0 +1,51 @@
+seed: 340
+
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  # nba_api season strings
+  seasons: ["2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
+  test_season: "2026-27"
+  request_sleep_sec: 0.7        # be nice to NBA.com rate limits
+  drop_bubble_games: false      # 2019-20 bubble (no home court) — decide + document
+
+splits:
+  train: ["2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24"]
+  val: ["2024-25"]
+  holdout: ["2025-26"]
+  test: ["2026-27"]             # touched ONCE, after freeze
+  freeze_date: "2026-11-30"     # only test on games after this
+
+elo:
+  k: 20
+  home_adv: 100
+  season_carryover: 0.75        # regress to mean between seasons
+
+features:
+  snapshot: [score_diff, seconds_remaining, period, possession_home, home_fouls, away_fouls,
+             home_timeouts, away_timeouts, elo_diff]
+  trend_window_events: 10
+
+models:
+  logreg:
+    C: 1.0
+  gbm:
+    n_estimators: 400
+    max_depth: 4
+    learning_rate: 0.05
+  lstm:
+    seq_len: 35                 # try 20 / 35 / 50
+    hidden_size: 64
+    num_layers: 1
+    dropout: 0.2
+    lr: 0.001
+    batch_size: 256
+    max_epochs: 30
+    patience: 4
+
+eval:
+  checkpoints: ["end_q1", "end_q2", "end_q3", "q4_5min"]
+  contested_band: [0.25, 0.75]
+  close_late_margin: 5
+  bootstrap_reps: 1000
+  calib_bins: 10

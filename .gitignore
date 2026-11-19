@@ -1,0 +1,30 @@
+# data (too big for git — share via Drive)
+data/raw/
+data/interim/
+data/processed/
+*.parquet
+*.csv
+!tests/fixtures/*.csv
+
+# models
+models/
+*.pt
+*.pkl
+*.joblib
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# os / editors
+.DS_Store
+.vscode/
+.idea/
+
+# claude code personal settings
+.claude/settings.local.json
