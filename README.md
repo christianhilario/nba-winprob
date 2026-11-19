@@ -1,6 +1,6 @@
 # nba-winprob
 
-DS340 final project (Fall '26) — Chris & David.
+DS340 final project (Fall '26) — Christian & David.
 
 We train and compare **logistic regression**, **gradient boosting**, and an **LSTM** (stretch: small transformer) that predict the home team's win probability after every play-by-play event, then freeze them and test prospectively on 2026-27 games.
 
